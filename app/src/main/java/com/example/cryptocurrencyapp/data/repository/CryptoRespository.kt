@@ -20,6 +20,7 @@ class CryptoRespository @Inject constructor(
     private val localDataSource: CryptoLocalDataSource,
     private val remoteDataSource: WCCryptoRepositoryImp,
 ) : WCCryptoRepository {
+
     override suspend fun getAvailableBooks(): List<WCCryptoBookDTO> {
         if (isInternetAvailable(context)) {
             val cryptoList = remoteDataSource.getAvailableBooks()
