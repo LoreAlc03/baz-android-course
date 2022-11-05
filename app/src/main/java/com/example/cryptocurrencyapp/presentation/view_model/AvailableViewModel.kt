@@ -7,7 +7,9 @@ import com.example.cryptocurrencyapp.domain.use_case.WCCAvailableUseCase
 import com.example.cryptocurrencyapp.utils.Resource
 import com.example.cryptocurrencyapp.utils.CryptoConstants
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,29 +23,33 @@ class AvailableViewModel @Inject constructor(private val availableUseCase: WCCAv
 
     fun getAvailableBook() {
         viewModelScope.launch {
-            val response = availableUseCase.coin()
-            response.collect { coins ->
-                when (coins) {
-                    is Resource.Loading ->
-                        _isLoading.value = true
-                    is Resource.Success -> {
-                        _isLoading.value = false
-                        coins.data?.filter { coin ->
-                            coin.book.contains(CryptoConstants.MXN)
-                        }?.map {
-                            WCCryptoBookDTO(
-                                book = it.book,
-                                minPrice = it.minPrice,
-                                maxPrice = it.maxPrice,
-                                name = it.name,
-                                logo = it.logo
-                            )
-                        } ?.let {
-                            _cryptoBook.value = it
+            withContext(Dispatchers.IO) {
+                val response = availableUseCase.coin()
+                response.collect { coins ->
+                    withContext(Dispatchers.Main) {
+                        when (coins) {
+                            is Resource.Loading ->
+                                _isLoading.value = true
+                            is Resource.Success -> {
+                                _isLoading.value = false
+                                coins.data?.filter { coin ->
+                                    coin.book.contains(CryptoConstants.MXN)
+                                }?.map {
+                                    WCCryptoBookDTO(
+                                        book = it.book,
+                                        minPrice = it.minPrice,
+                                        maxPrice = it.maxPrice,
+                                        name = it.name,
+                                        logo = it.logo
+                                    )
+                                }?.let {
+                                    _cryptoBook.value = it
+                                }
+                            }
+                            is Resource.Error ->
+                                Log.i("depur", "Error")
                         }
                     }
-                    is Resource.Error ->
-                        Log.i("depur", "Error")
                 }
             }
         }

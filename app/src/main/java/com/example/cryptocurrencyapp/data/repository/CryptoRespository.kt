@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import android.util.Log
 import com.example.cryptocurrencyapp.data.database.data_source.CryptoLocalDataSource
 import com.example.cryptocurrencyapp.data.database.entities.AvailableBookEntity
 import com.example.cryptocurrencyapp.data.remote.data_source.WCCryptoRepositoryImp
@@ -13,6 +14,8 @@ import com.example.cryptocurrencyapp.domain.entity.WCCTickerDTO
 import com.example.cryptocurrencyapp.domain.entity.WCCryptoBookDTO
 import com.example.cryptocurrencyapp.domain.repository.WCCryptoRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class CryptoRespository @Inject constructor(
@@ -38,7 +41,7 @@ class CryptoRespository @Inject constructor(
             }
             return cryptoList
         } else {
-            try{
+            try {
                 return localDataSource.getAllAvailableFromDB().map {
                     WCCryptoBookDTO(
                         book = it.book,
@@ -47,7 +50,8 @@ class CryptoRespository @Inject constructor(
                         logo = it.logo
                     )
                 }
-            }catch (e: Exception){
+            } catch (e: Exception) {
+                Log.e("Alfredo", "CryptoRespository Exception ${e.message} / ${e::class.java}")
                 e.printStackTrace()
                 return emptyList()
             }
