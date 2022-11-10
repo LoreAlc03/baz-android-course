@@ -1,6 +1,7 @@
 package com.example.cryptocurrencyapp.presentation.view.adapters
 
 
+import android.util.Log
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -44,7 +45,7 @@ class WCCryptoAdapter(private val click: (WCCryptoBookDTO) -> Unit) :
 
     private object CoinDiffCallback : DiffUtil.ItemCallback<WCCryptoBookDTO>() {
         override fun areItemsTheSame(oldItem: WCCryptoBookDTO, newItem: WCCryptoBookDTO): Boolean =
-            oldItem.book == newItem.book
+            oldItem == newItem
 
         override fun areContentsTheSame(
             oldItem: WCCryptoBookDTO,

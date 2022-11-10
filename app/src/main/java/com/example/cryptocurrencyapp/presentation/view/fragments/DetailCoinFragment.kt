@@ -6,19 +6,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import com.example.cryptocurrencyapp.data.repository.WCCryptoRepositoryImp
 import com.example.cryptocurrencyapp.databinding.FragmentDetailCoinBinding
 import com.example.cryptocurrencyapp.domain.entity.WCCryptoBookDTO
-import com.example.cryptocurrencyapp.domain.repository.retrofit
-import com.example.cryptocurrencyapp.domain.use_case.DetailUseCase
 import com.example.cryptocurrencyapp.presentation.view.adapters.OrderAdapter
 import com.example.cryptocurrencyapp.presentation.view_model.DetailViewModel
-import com.example.cryptocurrencyapp.presentation.view_model.ViewModelFactoryTicker
-
+import dagger.hilt.android.AndroidEntryPoint
 
 private const val BOOK = "book"
 
+@AndroidEntryPoint
 class DetailCoinFragment : Fragment() {
     private lateinit var binding: FragmentDetailCoinBinding
     private lateinit var bidAdapter: OrderAdapter
@@ -27,9 +25,7 @@ class DetailCoinFragment : Fragment() {
     private var nameCoin: String? = null
     private var icon: Int = 0
 
-    private val detailModel: DetailViewModel by viewModels {
-        ViewModelFactoryTicker(DetailUseCase(WCCryptoRepositoryImp(retrofit)))
-    }
+    private val detailModel by viewModels<DetailViewModel> ()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,8 +39,8 @@ class DetailCoinFragment : Fragment() {
         }
         bidAdapter = OrderAdapter()
         askAdapter = OrderAdapter()
-        detailModel.getOrderBook(book.book)
         detailModel.getTicker(book.book)
+        detailModel.getOrderBook(book.book)
     }
 
     override fun onCreateView(
@@ -63,12 +59,12 @@ class DetailCoinFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         detailModel.isLoading.observe(requireActivity()) { loading ->
             if (!loading) {
-                binding.ctLoading.visibility = View.INVISIBLE
+                binding.progressBar.visibility = View.INVISIBLE
             }
         }
         detailModel.resumeTicker.observe(requireActivity()) { ticker ->
             binding.imgCoin.setImageResource(book.logo)
-            binding.txtCoinName.text = nameCoin
+            binding.txtCoinName.text = book.name
             binding.txtValueMaxPrice.text = ticker.high
             binding.txtValueMinPrice.text = ticker.low
         }

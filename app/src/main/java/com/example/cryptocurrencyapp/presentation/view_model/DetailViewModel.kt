@@ -6,9 +6,15 @@ import com.example.cryptocurrencyapp.domain.entity.WCCOrdeRDTO
 import com.example.cryptocurrencyapp.domain.entity.WCCTickerDTO
 import com.example.cryptocurrencyapp.domain.use_case.DetailUseCase
 import com.example.cryptocurrencyapp.utils.Resource
+import com.example.cryptocurrencyapp.utils.Utils
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DetailViewModel (private val detailUseCase: DetailUseCase): ViewModel() {
+@HiltViewModel
+class DetailViewModel @Inject constructor (private val detailUseCase: DetailUseCase): ViewModel() {
 
     private val _tickerBook = MutableLiveData<WCCTickerDTO>()
     val resumeTicker: LiveData<WCCTickerDTO> get() = _tickerBook
@@ -22,26 +28,26 @@ class DetailViewModel (private val detailUseCase: DetailUseCase): ViewModel() {
     fun getTicker(book:String){
         viewModelScope.launch {
             val response =detailUseCase.ticker(book)
-            response.collect{ ticker ->
+            response.onEach{ ticker ->
                 when(ticker){
                     is Resource.Loading ->
                         _isLoading.value = true
                     is Resource.Success ->{
                         _tickerBook.value = ticker.data ?: WCCTickerDTO()
-                        _isLoading.value = true
+                        _isLoading.value = false
                                 Log.i("datos","$_tickerBook")
                     }
                     is Resource.Error ->
-                        Log.i("depur","Error")
+                       Utils.showDialog()
                 }
-            }
+            }.launchIn(viewModelScope)
         }
     }
 
     fun getOrderBook(book: String) {
         viewModelScope.launch {
             val response = detailUseCase.order(book)
-            response.collect { order ->
+            response.onEach { order ->
                 when (order) {
                     is Resource.Loading ->
                        _isLoading.value = true
@@ -51,20 +57,9 @@ class DetailViewModel (private val detailUseCase: DetailUseCase): ViewModel() {
                         Log.i("data", "$_orderBok")
                     }
                     is Resource.Error ->
-                        Log.i("depur", "Error")
+                        Utils.showDialog()
                 }
-            }
+            }.launchIn(viewModelScope)
         }
-    }
-
-
-}
-class ViewModelFactoryTicker(private val detaiUseCase: DetailUseCase ) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(DetailViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return DetailViewModel(detaiUseCase) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

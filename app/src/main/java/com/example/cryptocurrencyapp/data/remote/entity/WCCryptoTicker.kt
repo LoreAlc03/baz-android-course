@@ -1,51 +1,51 @@
-package com.example.cryptocurrencyapp.data.entity
+package com.example.cryptocurrencyapp.data.remote.entity
 
 import com.example.cryptocurrencyapp.domain.entity.WCCTickerDTO
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class WCCryptoTicker (
+data class WCCryptoTicker(
     @SerializedName("book")
     @Expose
-    val book: String = "",
+    val coin: String = "",
 
     @SerializedName("volume")
     @Expose
-    val volume: String  = "",
+    val volumeCoin: String = "",
 
     @SerializedName("high")
     @Expose
-    val high: String = "",
+    val highCoin: String = "",
 
     @SerializedName("last")
     @Expose
-    val last: String = "",
+    val lastCoin: String = "",
 
     @SerializedName("low")
     @Expose
-    val low: String = "",
+    val lowCoin: String = "",
 
     @SerializedName("vwap")
     @Expose
-    val vwap: String = "",
+    val vwapCoin: String = "",
 
     @SerializedName("ask")
     @Expose
-    val ask: String = "",
+    val askCoin: String = "",
 
     @SerializedName("bid")
     @Expose
-    val bid: String = "",
+    val bidCoin: String = "",
 
     @SerializedName("created_at")
     @Expose
     val createdAt: String = ""
-){
-    fun toBitsoTicker(): WCCTickerDTO{
-        return WCCTickerDTO(
-            book = book,
-            high = high,
-            low = low,
-        )
-    }
+)
+
+fun WCCryptoTicker.toBitsoTicker(): WCCTickerDTO {
+    return WCCTickerDTO(
+        book = this.coin,
+        high = highCoin,
+        low = lowCoin,
+    )
 }

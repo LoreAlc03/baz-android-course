@@ -9,22 +9,17 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.cryptocurrencyapp.R
-import com.example.cryptocurrencyapp.data.repository.WCCryptoRepositoryImp
 import com.example.cryptocurrencyapp.databinding.FragmentCryptoListBinding
-import com.example.cryptocurrencyapp.domain.repository.retrofit
-import com.example.cryptocurrencyapp.domain.use_case.WCCAvailableUseCase
 import com.example.cryptocurrencyapp.presentation.view.adapters.WCCryptoAdapter
 import com.example.cryptocurrencyapp.presentation.view_model.AvailableViewModel
-import com.example.cryptocurrencyapp.presentation.view_model.ViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class CryptoListFragment : Fragment() {
     private lateinit var binding: FragmentCryptoListBinding
     private lateinit var adapter : WCCryptoAdapter
 
-    private val coinViewModel:AvailableViewModel by viewModels {
-        ViewModelFactory(WCCAvailableUseCase(WCCryptoRepositoryImp(retrofit)))
-    }
+    private val coinViewModel by viewModels <AvailableViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,13 +27,13 @@ class CryptoListFragment : Fragment() {
             findNavController().navigate(R.id.action_cryptoListFragment_to_detailCoinFragment,
                 bundleOf("book" to book))
         }
-        coinViewModel.getAvailableBook()
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentCryptoListBinding.inflate(layoutInflater,container,false)
         binding.rvAvailable.adapter = adapter
         return binding.root
@@ -46,9 +41,15 @@ class CryptoListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        coinViewModel.getAvailableBook()
+        coinViewModel.isLoading.observe(requireActivity()) { loading ->
+            if (!loading) {
+                binding.progressBar.visibility = View.INVISIBLE
+            }
+        }
+
         coinViewModel.coins.observe(requireActivity()){ coin ->
             adapter.submitList(coin)
         }
-
     }
 }

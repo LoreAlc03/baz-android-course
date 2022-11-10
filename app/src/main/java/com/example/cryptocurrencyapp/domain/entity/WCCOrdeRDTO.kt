@@ -1,7 +1,7 @@
 package com.example.cryptocurrencyapp.domain.entity
 
 
-data class WCCOrdeRDTO (
-    val ask: MutableList <WCCOrderBookDTO>? = mutableListOf(),
-    val bids: MutableList <WCCOrderBookDTO>? = mutableListOf(),
+data class WCCOrdeRDTO(
+    val ask: List<WCCOrderBookDTO> = mutableListOf(),
+    val bids: List<WCCOrderBookDTO> = mutableListOf(),
 )
