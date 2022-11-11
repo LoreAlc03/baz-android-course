@@ -6,9 +6,9 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 var retrofit = Retrofit.Builder()
-            .baseUrl(CryptoConstants.BITSO_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(OkHttpClient())
-            .build().create(CryptoApi::class.java)
+    .baseUrl(CryptoConstants.BITSO_URL)
+    .addConverterFactory(GsonConverterFactory.create())
+    .client(OkHttpClient())
+    .build().create(CryptoApi::class.java)
 
-//fun repository(): WCCryptoApi = getBitsoData().create(WCCryptoApi::class.java)
+// fun repository(): WCCryptoApi = getBitsoData().create(WCCryptoApi::class.java)

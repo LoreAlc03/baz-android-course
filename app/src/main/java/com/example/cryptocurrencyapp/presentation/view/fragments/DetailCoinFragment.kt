@@ -2,11 +2,10 @@ package com.example.cryptocurrencyapp.presentation.view.fragments
 
 import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.cryptocurrencyapp.databinding.FragmentDetailCoinBinding
 import com.example.cryptocurrencyapp.domain.entity.WCCryptoBookDTO
@@ -44,13 +43,13 @@ class DetailCoinFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentDetailCoinBinding.inflate(layoutInflater, container, false)
         binding.rvAskDetail.adapter = askAdapter
         binding.rvBidDetail.adapter = bidAdapter
-
 
         return binding.root
     }
@@ -73,10 +72,4 @@ class DetailCoinFragment : Fragment() {
             bidAdapter.submitList(coin.bids)
         }
     }
-
 }
-
-
-
-
-

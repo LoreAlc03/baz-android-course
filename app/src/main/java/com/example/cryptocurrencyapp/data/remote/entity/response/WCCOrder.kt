@@ -22,8 +22,8 @@ data class WCCOrder(
     @SerializedName("sequence")
     @Expose
     val sequence: String = ""
-){
-    fun toOrder(): WCCOrdeRDTO{
+) {
+    fun toOrder(): WCCOrdeRDTO {
         return WCCOrdeRDTO(
             ask = ask.map { ask ->
                 ask.toOrderDTO(CryptoConstants.ASK)

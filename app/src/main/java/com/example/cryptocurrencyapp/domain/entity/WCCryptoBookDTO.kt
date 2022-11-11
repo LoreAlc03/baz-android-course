@@ -2,20 +2,19 @@ package com.example.cryptocurrencyapp.domain.entity
 
 import android.os.Parcel
 import android.os.Parcelable
-import java.io.Serializable
 
 data class WCCryptoBookDTO(
     val book: String = "",
     val minPrice: String = "",
     val maxPrice: String = "",
-    val logo : Int = 0,
+    val logo: Int = 0,
     val name: String = ""
-):  Parcelable{
+) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
-        parcel.readInt() ,
+        parcel.readInt(),
         parcel.readString() ?: ""
     ) {
     }

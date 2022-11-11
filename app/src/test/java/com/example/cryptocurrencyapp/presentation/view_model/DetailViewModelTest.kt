@@ -18,8 +18,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-
-class DetailViewModelTest{
+class DetailViewModelTest {
     private var getDetailUseCase: DetailUseCase = mockk()
     private lateinit var detailCryptoViewModel: DetailViewModel
 
@@ -39,46 +38,44 @@ class DetailViewModelTest{
     }
 
     @Test
-    fun `when view model is created at the first time and obtain a default format value from order method` () = runTest {
-        //Given
+    fun `when view model is created at the first time and obtain a default format value from order method`() = runTest {
+        // Given
         val idBookMock = "btc_mxn"
         val mockData = WCCOrdeRDTO()
         coEvery { getDetailUseCase.order(idBookMock) } returns flow { emit(Resource.Success(mockData)) }
 
-        //When
+        // When
         detailCryptoViewModel.getOrderBook(idBookMock)
 
-        //Then
+        // Then
         assert(detailCryptoViewModel.resumeOrder.value == mockData)
     }
 
     @Test
-    fun `when the viewmodel is create at the first time and obtain a default format value from ticker method` () = runTest {
-        //Given
+    fun `when the viewmodel is create at the first time and obtain a default format value from ticker method`() = runTest {
+        // Given
         val idBookMock = "btc_mx"
         val mockData = WCCTickerDTO()
-        coEvery { getDetailUseCase.ticker(idBookMock) } returns flow { emit(Resource.Success(mockData))}
+        coEvery { getDetailUseCase.ticker(idBookMock) } returns flow { emit(Resource.Success(mockData)) }
 
-        //When
+        // When
         detailCryptoViewModel.getTicker(idBookMock)
 
-        //Then
+        // Then
         assert(detailCryptoViewModel.resumeTicker.value == mockData)
     }
 
     @Test
     fun `when the viewmodel is create at the first time and obtain a correct format value from getDetailTicker method`() = runTest {
-        //Given
+        // Given
         val idBookMock = "btc_mxn"
-        val mockData = WCCTickerDTO( low = "1", high = "34")
+        val mockData = WCCTickerDTO(low = "1", high = "34")
         coEvery { getDetailUseCase.ticker(idBookMock) } returns flow { emit(Resource.Success(mockData)) }
 
-        //When
+        // When
         detailCryptoViewModel.getTicker(idBookMock)
 
-        //Then
+        // Then
         assert(detailCryptoViewModel.resumeTicker.value == mockData)
     }
-
-
 }

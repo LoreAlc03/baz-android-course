@@ -1,7 +1,6 @@
 package com.example.cryptocurrencyapp.data.remote.entity
 
 import com.example.cryptocurrencyapp.R
-import com.example.cryptocurrencyapp.domain.entity.WCCOrderBookDTO
 import com.example.cryptocurrencyapp.domain.entity.WCCryptoBookDTO
 import com.example.cryptocurrencyapp.utils.Utils
 import com.google.gson.annotations.Expose
@@ -110,7 +109,6 @@ data class WCCryptoAvailable(
             )
             else -> WCCryptoBookDTO()
         }
-
 }
 
 fun WCCryptoAvailable.toWCCryptoOrderBook() =
@@ -119,4 +117,3 @@ fun WCCryptoAvailable.toWCCryptoOrderBook() =
         minPrice = minPrice,
         maxPrice = maxPrice,
     )
-

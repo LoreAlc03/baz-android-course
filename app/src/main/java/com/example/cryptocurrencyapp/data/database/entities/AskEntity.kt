@@ -6,8 +6,8 @@ import com.example.cryptocurrencyapp.domain.entity.WCCOrderBookDTO
 
 @Entity(tableName = "ask_table")
 data class AskEntity(
-    @PrimaryKey (autoGenerate = true)
-    val id:Int = 0,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     val book: String,
     val price: String = "",
     val amount: String = "",
@@ -21,7 +21,6 @@ fun AskEntity.toWCCOrderBookDTO() =
         amount = this.amount,
         type = this.type
     )
-
 
 fun List<WCCOrderBookDTO>?.toAskEntityList() = mutableListOf<AskEntity>().apply {
     this@toAskEntityList?.forEach {

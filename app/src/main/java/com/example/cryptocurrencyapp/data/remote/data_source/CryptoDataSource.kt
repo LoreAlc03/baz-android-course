@@ -9,7 +9,6 @@ import com.example.cryptocurrencyapp.domain.entity.WCCryptoBookDTO
 import com.example.cryptocurrencyapp.domain.repository.WCCryptoRepository
 import javax.inject.Inject
 
-
 class WCCryptoRepositoryImp @Inject constructor(private val api: CryptoApi) : WCCryptoRepository {
 
     override suspend fun getAvailableBooks(): List<WCCryptoBookDTO> =
@@ -26,4 +25,3 @@ fun WCCryptoAvailableResponse.toListWCCryptoBookDTO() =
     this.coins?.map {
         it.toBook()
     }
-

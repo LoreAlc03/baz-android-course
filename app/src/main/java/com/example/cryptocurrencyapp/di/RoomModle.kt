@@ -18,13 +18,11 @@ object RoomModle {
 
     @Singleton
     @Provides
-    fun providerRoom (@ApplicationContext context: Context) =
+    fun providerRoom(@ApplicationContext context: Context) =
         Room.databaseBuilder(context, CoinDataBase ::class.java, COIN_DATABASE_NAME)
             .build()
 
-
     @Singleton
     @Provides
-    fun providerCoinDao (bd: CoinDataBase) = bd.getCoinDao()
-
+    fun providerCoinDao(bd: CoinDataBase) = bd.getCoinDao()
 }

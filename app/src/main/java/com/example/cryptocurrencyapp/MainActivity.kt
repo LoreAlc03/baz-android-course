@@ -1,7 +1,7 @@
 package com.example.cryptocurrencyapp
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.example.cryptocurrencyapp.databinding.ActivityMainBinding
 import com.example.cryptocurrencyapp.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint

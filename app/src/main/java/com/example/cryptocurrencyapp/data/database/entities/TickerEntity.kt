@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import com.example.cryptocurrencyapp.domain.entity.WCCTickerDTO
 
 @Entity(tableName = "ticker_table")
-data class TickerEntity (
+data class TickerEntity(
     @PrimaryKey val book: String,
     val high: String = "",
     val low: String
@@ -17,4 +17,3 @@ fun TickerEntity.toWCCTickerDTO() =
         high = high,
         low = low
     )
-

@@ -4,11 +4,14 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
-import com.example.cryptocurrencyapp.data.remote.api.CryptoApi
 import com.example.cryptocurrencyapp.data.database.data_source.CryptoLocalDataSource
 import com.example.cryptocurrencyapp.data.database.entities.*
+import com.example.cryptocurrencyapp.data.remote.api.CryptoApi
 import com.example.cryptocurrencyapp.data.remote.data_source.WCCryptoRepositoryImp
-import com.example.cryptocurrencyapp.domain.entity.*
+import com.example.cryptocurrencyapp.domain.entity.WCCOrdeRDTO
+import com.example.cryptocurrencyapp.domain.entity.WCCTickerDTO
+import com.example.cryptocurrencyapp.domain.entity.WCCryptoBookDTO
+import com.example.cryptocurrencyapp.domain.entity.toTickerEntity
 import com.example.cryptocurrencyapp.domain.repository.WCCryptoRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -40,7 +43,6 @@ class CryptoRespository @Inject constructor(
         }
     }
 
-
     override suspend fun getTickerBook(book: String): WCCTickerDTO {
         return if (isInternetAvailable(context)) {
             val ticker: WCCTickerDTO = remoteDataSource.getTickerBook(book)
@@ -56,7 +58,8 @@ class CryptoRespository @Inject constructor(
             } catch (e: Exception) {
                 e.printStackTrace()
                 return WCCTickerDTO()
-            } }
+            }
+    }
 
     override suspend fun getOrderBook(book: String): WCCOrdeRDTO {
         if (isInternetAvailable(context)) {
@@ -103,13 +106,9 @@ fun isInternetAvailable(context: Context): Boolean {
                     ConnectivityManager.TYPE_ETHERNET -> true
                     else -> false
                 }
-
             }
         }
     }
 
     return result
 }
-
-
-

@@ -1,7 +1,5 @@
 package com.example.cryptocurrencyapp.utils
 
-import com.example.cryptocurrencyapp.R
-
 /*fun String?.toBookName(): String  = when(this) {
     CoinType.BITCOIN.value -> "Bitcoin"
     CoinType.ETHEREUM.value -> "Ethereum"

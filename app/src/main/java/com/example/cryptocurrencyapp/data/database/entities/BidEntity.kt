@@ -29,4 +29,3 @@ fun List<WCCOrderBookDTO>?.toBidsEntityList() = mutableListOf<BidEntity>().apply
         )
     }
 }
-

@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
 data class WCCryptoAvailableResponse(
     @SerializedName("success")
     @Expose
-    val success: Boolean  = false,
+    val success: Boolean = false,
 
     @SerializedName("payload")
     @Expose

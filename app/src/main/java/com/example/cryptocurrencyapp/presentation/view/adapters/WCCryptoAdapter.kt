@@ -1,16 +1,13 @@
 package com.example.cryptocurrencyapp.presentation.view.adapters
 
-
-import android.util.Log
+import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.DiffUtil
-import android.view.LayoutInflater
 import com.example.cryptocurrencyapp.databinding.CryptoItemBinding
 import com.example.cryptocurrencyapp.domain.entity.WCCryptoBookDTO
 import com.example.cryptocurrencyapp.utils.Utils
-
 
 class WCCryptoAdapter(private val click: (WCCryptoBookDTO) -> Unit) :
     ListAdapter<WCCryptoBookDTO, WCCryptoAdapter.ViewHolder>(CoinDiffCallback) {
@@ -38,7 +35,6 @@ class WCCryptoAdapter(private val click: (WCCryptoBookDTO) -> Unit) :
                 txtCryptoName.text = coin.name
                 txtMinPrice.text = coin.minPrice
                 txtMaxPrice.text = coin.maxPrice
-
             }
         }
     }
@@ -53,5 +49,4 @@ class WCCryptoAdapter(private val click: (WCCryptoBookDTO) -> Unit) :
         ): Boolean =
             oldItem == newItem
     }
-
 }
