@@ -2,6 +2,7 @@ package com.example.cryptocurrencyapp.domain.entity
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.example.cryptocurrencyapp.utils.CryptoConstants
 
 data class WCCryptoBookDTO(
     val book: String = "",
@@ -39,5 +40,19 @@ data class WCCryptoBookDTO(
         override fun newArray(size: Int): Array<WCCryptoBookDTO?> {
             return arrayOfNulls(size)
         }
+    }
+}
+
+fun List<WCCryptoBookDTO>.toFilterWCCryptoBookDTO(): List<WCCryptoBookDTO> {
+    return this.filter { coin ->
+        coin.book.contains(CryptoConstants.MXN)
+    }.map {
+        WCCryptoBookDTO(
+            book = it.book,
+            minPrice = it.minPrice,
+            maxPrice = it.maxPrice,
+            name = it.name,
+            logo = it.logo
+        )
     }
 }

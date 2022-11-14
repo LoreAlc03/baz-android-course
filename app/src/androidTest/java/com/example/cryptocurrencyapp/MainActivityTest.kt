@@ -27,5 +27,5 @@ fun nav_detail() {
     }
 
     Espresso.onView(ViewMatchers.withId(R.id.box_crypto_item)).perform(ViewActions.click())
-    // assertThat(navController.currentDestination?.id).isEqualsTo(R.id.detailCoinFragment)
+     assert(navController.currentDestination?.id == R.id.detailCoinFragment)
 }

@@ -2,6 +2,7 @@ package com.example.cryptocurrencyapp.presentation.view_model
 
 import androidx.lifecycle.*
 import com.example.cryptocurrencyapp.domain.entity.WCCryptoBookDTO
+import com.example.cryptocurrencyapp.domain.entity.toFilterWCCryptoBookDTO
 import com.example.cryptocurrencyapp.domain.use_case.WCCAvailableUseCase
 import com.example.cryptocurrencyapp.utils.CryptoConstants
 import com.example.cryptocurrencyapp.utils.Resource
@@ -20,10 +21,15 @@ class AvailableViewModel @Inject constructor(private val availableUseCase: WCCAv
 
     private val _cryptoBook = MutableLiveData<List<WCCryptoBookDTO>>()
     val coins: LiveData<List<WCCryptoBookDTO>> get() = _cryptoBook
-    private var mesage = ""
 
     private var _isLoading = MutableLiveData<Boolean>(true)
     val isLoading: LiveData<Boolean> get() = _isLoading
+
+    private var _isError = MutableLiveData<Boolean>(true)
+    val isError: LiveData<Boolean> get() = _isError
+
+    /*private var _isError = MutableLiveData<String>
+    val isError: LiveData<Boolean> get() = _isError*/
 
     init {
         getAvailableBook()
@@ -40,19 +46,8 @@ class AvailableViewModel @Inject constructor(private val availableUseCase: WCCAv
                         }
                         is Resource.Success -> {
                             _isLoading.value = false
-                            coins.data?.filter { coin ->
-                                coin.book.contains(CryptoConstants.MXN)
-                            }?.map {
-                                WCCryptoBookDTO(
-                                    book = it.book,
-                                    minPrice = it.minPrice,
-                                    maxPrice = it.maxPrice,
-                                    name = it.name,
-                                    logo = it.logo
-                                )
-                            }?.let {
-                                _cryptoBook.value = it
-                            }
+                            _cryptoBook.value = coins.data?.toFilterWCCryptoBookDTO() ?: coins.data
+
                         }
                         is Resource.Error ->
                             Utils.showDialog()
