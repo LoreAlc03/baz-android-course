@@ -1,17 +1,15 @@
 package com.example.cryptocurrencyapp.presentation.view_model
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.cryptocurrencyapp.domain.entity.WCCOrdeRDTO
 import com.example.cryptocurrencyapp.domain.entity.WCCTickerDTO
 import com.example.cryptocurrencyapp.domain.use_case.DetailUseCase
+import com.example.cryptocurrencyapp.presentation.view.state.DetailCoinState
 import com.example.cryptocurrencyapp.utils.Resource
 import com.example.cryptocurrencyapp.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,8 +20,9 @@ class DetailViewModel @Inject constructor(private val detailUseCase: DetailUseCa
     private val _tickerBook = MutableLiveData<WCCTickerDTO>()
     val resumeTicker: LiveData<WCCTickerDTO> get() = _tickerBook
 
-    private var _isLoading = MutableLiveData<Boolean>(true)
-    val isLoading: LiveData<Boolean> get() = _isLoading
+    val state = MutableStateFlow(DetailCoinState(isLoading = true))
+    //val isLoading : State<DetailCoinState> = _isLoading
+
 
     private val _orderBok = MutableLiveData<WCCOrdeRDTO>()
     val resumeOrder: LiveData<WCCOrdeRDTO> get() = _orderBok
@@ -33,15 +32,27 @@ class DetailViewModel @Inject constructor(private val detailUseCase: DetailUseCa
             val response = detailUseCase.ticker(book)
             response.onEach { ticker ->
                 when (ticker) {
-                    is Resource.Loading ->
-                        _isLoading.value = true
+                    is Resource.Loading -> {
+                        state.update {
+                            it.copy(isLoading = true, errorMessage = null)
+                        }
+                    }
+
                     is Resource.Success -> {
-                        _tickerBook.value = ticker.data ?: WCCTickerDTO()
-                        _isLoading.value = false
+                        //_tickerBook.value = ticker.data ?: WCCTickerDTO()
+                        state.update {
+                            it.copy(
+                                isLoading = false,
+                                errorMessage = null,
+                                dataTicker = ticker.data ?: WCCTickerDTO()
+                            )
+                        }
                         Log.i("datos", "$_tickerBook")
                     }
                     is Resource.Error ->
-                        Utils.showDialog()
+                        state.update {
+                            it.copy(isLoading = false, errorMessage = ticker.uiText)
+                        }
                 }
             }.launchIn(viewModelScope)
         }
@@ -53,14 +64,24 @@ class DetailViewModel @Inject constructor(private val detailUseCase: DetailUseCa
             response.onEach { order ->
                 when (order) {
                     is Resource.Loading ->
-                        _isLoading.value = true
+                        state.update {
+                            it.copy(isLoading = true, errorMessage = null)
+                        }
                     is Resource.Success -> {
-                        _orderBok.value = order.data ?: WCCOrdeRDTO()
-                        _isLoading.value = false
+                        // _orderBok.value = order.data ?: WCCOrdeRDTO()
+                        state.update {
+                            it.copy(
+                                isLoading = false,
+                                errorMessage = null,
+                                dataOrder = order.data ?: WCCOrdeRDTO()
+                            )
+                        }
                         Log.i("data", "$_orderBok")
                     }
                     is Resource.Error ->
-                        Utils.showDialog()
+                        state.update {
+                            it.copy(isLoading = false, errorMessage = order.uiText)
+                        }
                 }
             }.launchIn(viewModelScope)
         }

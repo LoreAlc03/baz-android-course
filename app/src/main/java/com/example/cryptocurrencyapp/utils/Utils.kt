@@ -2,6 +2,7 @@ package com.example.cryptocurrencyapp.utils
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import com.example.cryptocurrencyapp.R
 import java.text.Normalizer
 
@@ -15,9 +16,9 @@ object Utils {
         return query
     }
 
-    fun errorDialog(activity: Activity) {
+    fun errorDialog(activity: Context, msg: String) {
         val builder = AlertDialog.Builder(activity)
-        builder.setTitle("ERROR").setMessage("Error al cargar datos, intentarlo más tarde")
+        builder.setTitle("ERROR").setMessage(msg)
         dialog = builder.create()
     }
     fun showDialog() {
