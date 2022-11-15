@@ -99,11 +99,11 @@ class CryptoRespository @Inject constructor(
             }
         }
         else{
-            return Single.just(
-                localDataSource.getAllAvailableRxFromDB().blockingGet().map {
-                    it.toWCCryptoBookDTO()
+            return localDataSource.getAllAvailableRxFromDB().map {
+                    it.map {
+                        it.toWCCryptoBookDTO()
+                    }
                 }
-            )
         }
     }
 }
