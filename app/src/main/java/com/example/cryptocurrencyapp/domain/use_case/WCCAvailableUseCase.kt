@@ -15,8 +15,8 @@ class WCCAvailableUseCase @Inject constructor(private val repository: CryptoResp
     suspend fun coin(): Flow<Resource<List<WCCryptoBookDTO>>> = flow {
         try {
             emit(Resource.Loading())
-            val response = repository.getAvailableBooks()
-            emit(Resource.Success(response))
+            //val response = repository.getAvailableBooks()
+          //  emit(Resource.Success(response))
         } catch (e: Exception) {
             Log.e("Execute Exception", "WCCAvailableUseCase Exception ${e.message} / ${e::class.java}")
             e.printStackTrace()

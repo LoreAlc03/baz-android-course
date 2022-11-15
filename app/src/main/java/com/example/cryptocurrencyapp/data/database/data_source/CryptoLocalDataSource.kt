@@ -5,6 +5,7 @@ import com.example.cryptocurrencyapp.data.database.entities.AskEntity
 import com.example.cryptocurrencyapp.data.database.entities.AvailableBookEntity
 import com.example.cryptocurrencyapp.data.database.entities.BidEntity
 import com.example.cryptocurrencyapp.data.database.entities.TickerEntity
+import io.reactivex.Single
 import javax.inject.Inject
 
 class CryptoLocalDataSource @Inject constructor(
@@ -13,14 +14,17 @@ class CryptoLocalDataSource @Inject constructor(
 ) {
 
     // Available
-    suspend fun getAllAvailableFromDB(): List<AvailableBookEntity> =
+    /*suspend fun getAllAvailableFromDB():  List<AvailableBookEntity> =
         cryptoDB.getAllAvailableBookDB()
 
     suspend fun insertAvailableBookToDB(bookList: List<AvailableBookEntity>) =
-        cryptoDB.insertAvailableBooDB(bookList)
+        cryptoDB.insertAvailableBooDB(bookList)*/
 
-    suspend fun updateAvailableBookDB(bookList: List<AvailableBookEntity>) =
-        cryptoDB.updateAvailableBookDB(bookList)
+ fun getAllAvailableRxFromDB(): Single<List<AvailableBookEntity>> =
+        cryptoDB.getAllAvailableRXDB()
+
+    fun insertAvailableRxBookToDB(bookList: List<AvailableBookEntity>) =
+        cryptoDB.insertAvailableRXDB(bookList)
 
     // Ticker
     suspend fun getTickerFromDB(book: String): TickerEntity =

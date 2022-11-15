@@ -26,8 +26,8 @@ class CryptoRespository @Inject constructor(
     private val localDataSource: CryptoLocalDataSource,
     private val remoteDataSource: WCCryptoRepositoryImp,
 ) : WCCryptoRepository {
-    override suspend fun getAvailableBooks(): List<WCCryptoBookDTO> {
-        if (isInternetAvailable(context)) {
+  /*  override suspend fun getAvailableBooks(): List<WCCryptoBookDTO> {
+        if (isInternet(context)) {
             val cryptoList = remoteDataSource.getAvailableBooks()
             if (cryptoList.isNotEmpty()) {
                 localDataSource.insertAvailableBookToDB(cryptoList.toAvailableEntity())
@@ -45,9 +45,9 @@ class CryptoRespository @Inject constructor(
                 emptyList()
             }
         }
-    }
+    }*/
     override suspend fun getTickerBook(book: String): WCCTickerDTO {
-        return if (isInternetAvailable(context)) {
+        return if (isInternet(context)) {
             val ticker: WCCTickerDTO = remoteDataSource.getTickerBook(book)
 
             if (ticker.book != "") {
@@ -64,7 +64,7 @@ class CryptoRespository @Inject constructor(
             }
     }
     override suspend fun getOrderBook(book: String): WCCOrdeRDTO {
-        if (isInternetAvailable(context)) {
+        if (isInternet(context)) {
             val order = remoteDataSource.getOrderBook(book)
             if (order.ask.isNotEmpty() && order.bids.isNotEmpty()) {
                 localDataSource.deleteOrderBook(book)
@@ -83,20 +83,43 @@ class CryptoRespository @Inject constructor(
             }
         }
     }
+
+    override fun getAvailableRx(): Single<List<WCCryptoBookDTO>> {
+        if (isInternet(context)) {
+            return remoteDataSource.getAvailableRx().map { coins ->
+                val cryptoList = coins.toMutableList()
+                if (coins.isNotEmpty()) {
+                    localDataSource.insertAvailableRxBookToDB(coins.toAvailableEntity())
+                } else {
+                    cryptoList.addAll(localDataSource.getAllAvailableRxFromDB().blockingGet().map {
+                        it.toWCCryptoBookDTO()
+                    })
+                }
+                cryptoList
+            }
+        }
+        else{
+            return Single.just(
+                localDataSource.getAllAvailableRxFromDB().blockingGet().map {
+                    it.toWCCryptoBookDTO()
+                }
+            )
+        }
+    }
 }
 
-fun isInternetAvailable(context: Context): Boolean {
+fun isInternet(context: Context): Boolean {
     var result = false
     val connectivityManager =
         context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         val networkCapabilities = connectivityManager.activeNetwork ?: return false
-        val actNw =
+        val network =
             connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
         result = when {
-            actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-            actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-            actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+            network.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+            network.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+            network.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
             else -> false
         }
     } else {

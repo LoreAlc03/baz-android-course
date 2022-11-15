@@ -13,14 +13,19 @@ import javax.inject.Inject
 
 class WCCryptoRepositoryImp @Inject constructor(private val api: CryptoApi) : WCCryptoRepository {
 
-    override suspend fun getAvailableBooks(): List<WCCryptoBookDTO> =
-        api.getExchangeBooks().toListWCCryptoBookDTO().orEmpty()
+    /*override suspend fun getAvailableBooks(): List<WCCryptoBookDTO> =
+        api.getExchangeBooks().toListWCCryptoBookDTO().orEmpty()*/
 
     override suspend fun getTickerBook(book: String): WCCTickerDTO =
         api.getTickerBook(book = book).tickerCoin?.toBitsoTicker() ?: WCCTickerDTO()
 
     override suspend fun getOrderBook(book: String): WCCOrdeRDTO =
         api.getOrderBook(book = book).orderCoin?.toOrder() ?: WCCOrdeRDTO()
+
+    override fun getAvailableRx(): Single<List<WCCryptoBookDTO>> =
+        api.getExchangeBooksRx().map {
+            it.toListWCCryptoBookDTO()
+        }
 }
 
 fun WCCryptoAvailableResponse.toListWCCryptoBookDTO() =
