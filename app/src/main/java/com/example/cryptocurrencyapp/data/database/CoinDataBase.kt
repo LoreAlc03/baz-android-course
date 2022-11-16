@@ -14,5 +14,5 @@ import com.example.cryptocurrencyapp.data.database.entities.TickerEntity
 )
 abstract class CoinDataBase : RoomDatabase() {
 
-    abstract fun getCoinDao(): CryptoDao
+    abstract fun getCryptoDao(): CryptoDao
 }

@@ -7,7 +7,6 @@ import com.example.cryptocurrencyapp.utils.CryptoConstants
 import com.example.cryptocurrencyapp.utils.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import retrofit2.HttpException
 import javax.inject.Inject
 
 class DetailUseCase @Inject constructor(private val repository: CryptoRespository) {
@@ -25,7 +24,7 @@ class DetailUseCase @Inject constructor(private val repository: CryptoRespositor
             emit(Resource.Loading())
             val response = repository.getOrderBook(book)
             emit(Resource.Success(response))
-        } catch (e: HttpException) {
+        } catch (e: Exception) {
             emit(Resource.Error(e.localizedMessage ?: CryptoConstants.ERROR))
         }
     }

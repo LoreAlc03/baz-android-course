@@ -19,10 +19,6 @@ class AvailableViewModel @Inject constructor(private val availableUseCase: GetAv
     private val _stateAvailable = MutableStateFlow(AvailableState(isLoading = true))
     val state: StateFlow<AvailableState> = _stateAvailable
 
-    init {
-        getAvailableBook()
-    }
-
     fun getAvailableBook() {
         viewModelScope.launch {
             availableUseCase.coin().subscribeOn(
