@@ -10,5 +10,3 @@ var retrofit = Retrofit.Builder()
     .addConverterFactory(GsonConverterFactory.create())
     .client(OkHttpClient())
     .build().create(CryptoApi::class.java)
-
-// fun repository(): WCCryptoApi = getBitsoData().create(WCCryptoApi::class.java)

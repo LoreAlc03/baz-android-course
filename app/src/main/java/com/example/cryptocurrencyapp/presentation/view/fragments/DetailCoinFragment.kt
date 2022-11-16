@@ -61,10 +61,8 @@ class DetailCoinFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
         viewLifecycleOwner.lifecycleScope.launch {
-            detailModel.state.collect{
+            detailModel.state.collect {
                 binding.imgCoin.setImageResource(book.logo)
                 binding.txtCoinName.text = book.name
                 binding.txtValueMaxPrice.text = it.dataTicker?.high
@@ -74,7 +72,7 @@ class DetailCoinFragment : Fragment() {
                 bidAdapter.submitList(it.dataOrder?.bids)
 
                 binding.progressBar.isVisible = it.isLoading
-                if (!it.errorMessage.isNullOrEmpty()){
+                if (!it.errorMessage.isNullOrEmpty()) {
                     Utils.errorDialog(requireContext(), it.errorMessage)
                 }
             }

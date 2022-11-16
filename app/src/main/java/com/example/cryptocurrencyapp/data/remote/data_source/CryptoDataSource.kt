@@ -1,6 +1,5 @@
 package com.example.cryptocurrencyapp.data.remote.data_source
 
-import io.reactivex.Observable
 import com.example.cryptocurrencyapp.data.remote.api.CryptoApi
 import com.example.cryptocurrencyapp.data.remote.entity.response.WCCryptoAvailableResponse
 import com.example.cryptocurrencyapp.data.remote.entity.toBitsoTicker
@@ -12,9 +11,6 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 class WCCryptoRepositoryImp @Inject constructor(private val api: CryptoApi) : WCCryptoRepository {
-
-    /*override suspend fun getAvailableBooks(): List<WCCryptoBookDTO> =
-        api.getExchangeBooks().toListWCCryptoBookDTO().orEmpty()*/
 
     override suspend fun getTickerBook(book: String): WCCTickerDTO =
         api.getTickerBook(book = book).tickerCoin?.toBitsoTicker() ?: WCCTickerDTO()

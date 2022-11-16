@@ -1,26 +1,18 @@
 package com.example.cryptocurrencyapp.data.database.dao
 
-
 import androidx.room.*
 import com.example.cryptocurrencyapp.data.database.entities.*
 import com.example.cryptocurrencyapp.domain.entity.WCCOrdeRDTO
-import io.reactivex.Completable
 import io.reactivex.Single
 
 @Dao
 interface CryptoDao {
-    // Available
-   /* @Query("SELECT * FROM available_table")
-    suspend fun getAllAvailableBookDB(): List<AvailableBookEntity>
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAvailableBooDB(book: List<AvailableBookEntity>)*/
 
     @Query("SELECT * FROM available_table")
     fun getAllAvailableRXDB(): Single<List<AvailableBookEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAvailableRXDB(book: List<AvailableBookEntity>): Completable
+    fun insertAvailableRXDB(book: List<AvailableBookEntity>)
 
     @Update
     suspend fun updateAvailableBookDB(bookList: List<AvailableBookEntity>)

@@ -5,21 +5,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.cryptocurrencyapp.R
 import com.example.cryptocurrencyapp.databinding.FragmentCryptoListBinding
 import com.example.cryptocurrencyapp.presentation.view.adapters.WCCryptoAdapter
 import com.example.cryptocurrencyapp.presentation.view_model.AvailableViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CryptoListFragment : Fragment() {
     private lateinit var binding: FragmentCryptoListBinding
     private lateinit var adapter: WCCryptoAdapter
 
-    private val coinViewModel by viewModels <AvailableViewModel>()
+    private val coinViewModel by viewModels<AvailableViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,14 +49,13 @@ class CryptoListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         coinViewModel.getAvailableBook()
-        coinViewModel.isLoading.observe(requireActivity()) { loading ->
-            if (!loading) {
-                binding.progressBar.visibility = View.INVISIBLE
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                coinViewModel.state.collect {
+                    binding.progressBar.isVisible = it.isLoading
+                    adapter.submitList(it.dataAvailable)
+                }
             }
-        }
-
-        coinViewModel.coins.observe(requireActivity()) { coin ->
-            adapter.submitList(coin)
         }
     }
 }

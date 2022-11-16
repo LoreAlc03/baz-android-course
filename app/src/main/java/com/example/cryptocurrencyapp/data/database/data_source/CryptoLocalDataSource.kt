@@ -5,22 +5,13 @@ import com.example.cryptocurrencyapp.data.database.entities.AskEntity
 import com.example.cryptocurrencyapp.data.database.entities.AvailableBookEntity
 import com.example.cryptocurrencyapp.data.database.entities.BidEntity
 import com.example.cryptocurrencyapp.data.database.entities.TickerEntity
-import io.reactivex.Single
 import javax.inject.Inject
 
 class CryptoLocalDataSource @Inject constructor(
     private val cryptoDB: CryptoDao
 
 ) {
-
-    // Available
-    /*suspend fun getAllAvailableFromDB():  List<AvailableBookEntity> =
-        cryptoDB.getAllAvailableBookDB()
-
-    suspend fun insertAvailableBookToDB(bookList: List<AvailableBookEntity>) =
-        cryptoDB.insertAvailableBooDB(bookList)*/
-
- fun getAllAvailableRxFromDB(): Single<List<AvailableBookEntity>> =
+    fun getAllAvailableRxFromDB() =
         cryptoDB.getAllAvailableRXDB()
 
     fun insertAvailableRxBookToDB(bookList: List<AvailableBookEntity>) =

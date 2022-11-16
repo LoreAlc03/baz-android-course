@@ -6,46 +6,21 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import com.example.cryptocurrencyapp.data.database.data_source.CryptoLocalDataSource
 import com.example.cryptocurrencyapp.data.database.entities.*
-import com.example.cryptocurrencyapp.data.remote.api.CryptoApi
 import com.example.cryptocurrencyapp.data.remote.data_source.WCCryptoRepositoryImp
-import com.example.cryptocurrencyapp.data.remote.data_source.toListWCCryptoBookDTO
-import com.example.cryptocurrencyapp.data.remote.entity.response.WCCryptoAvailableResponse
 import com.example.cryptocurrencyapp.domain.entity.WCCOrdeRDTO
 import com.example.cryptocurrencyapp.domain.entity.WCCTickerDTO
 import com.example.cryptocurrencyapp.domain.entity.WCCryptoBookDTO
 import com.example.cryptocurrencyapp.domain.entity.toTickerEntity
 import com.example.cryptocurrencyapp.domain.repository.WCCryptoRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
-import io.reactivex.Observable
 import io.reactivex.Single
 import javax.inject.Inject
 
 class CryptoRespository @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val api: CryptoApi,
     private val localDataSource: CryptoLocalDataSource,
     private val remoteDataSource: WCCryptoRepositoryImp,
 ) : WCCryptoRepository {
-  /*  override suspend fun getAvailableBooks(): List<WCCryptoBookDTO> {
-        if (isInternet(context)) {
-            val cryptoList = remoteDataSource.getAvailableBooks()
-            if (cryptoList.isNotEmpty()) {
-                localDataSource.insertAvailableBookToDB(cryptoList.toAvailableEntity())
-            } else {
-                localDataSource.getAllAvailableFromDB()
-            }
-            return cryptoList
-        } else {
-            return try {
-                localDataSource.getAllAvailableFromDB().map {
-                    it.toWCCryptoBookDTO()
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                emptyList()
-            }
-        }
-    }*/
     override suspend fun getTickerBook(book: String): WCCTickerDTO {
         return if (isInternet(context)) {
             val ticker: WCCTickerDTO = remoteDataSource.getTickerBook(book)
@@ -63,6 +38,7 @@ class CryptoRespository @Inject constructor(
                 return WCCTickerDTO()
             }
     }
+
     override suspend fun getOrderBook(book: String): WCCOrdeRDTO {
         if (isInternet(context)) {
             val order = remoteDataSource.getOrderBook(book)
@@ -91,19 +67,20 @@ class CryptoRespository @Inject constructor(
                 if (coins.isNotEmpty()) {
                     localDataSource.insertAvailableRxBookToDB(coins.toAvailableEntity())
                 } else {
-                    cryptoList.addAll(localDataSource.getAllAvailableRxFromDB().blockingGet().map {
-                        it.toWCCryptoBookDTO()
-                    })
+                    cryptoList.addAll(
+                        localDataSource.getAllAvailableRxFromDB().blockingGet().map {
+                            it.toWCCryptoBookDTO()
+                        }
+                    )
                 }
                 cryptoList
             }
-        }
-        else{
-            return localDataSource.getAllAvailableRxFromDB().map {
-                    it.map {
-                        it.toWCCryptoBookDTO()
-                    }
+        } else {
+            return localDataSource.getAllAvailableRxFromDB().map { books ->
+                books.map {
+                    it.toWCCryptoBookDTO()
                 }
+            }
         }
     }
 }
@@ -136,4 +113,3 @@ fun isInternet(context: Context): Boolean {
     }
     return result
 }
-

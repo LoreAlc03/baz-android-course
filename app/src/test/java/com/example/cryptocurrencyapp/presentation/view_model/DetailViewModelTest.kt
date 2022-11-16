@@ -38,7 +38,7 @@ class DetailViewModelTest {
     }
 
     @Test
-    fun `when view model is created at the first time and obtain a default format value from order method`() = runTest {
+    fun default_format_value_order() = runTest {
         // Given
         val idBookMock = "btc_mxn"
         val mockData = WCCOrdeRDTO()
@@ -48,11 +48,11 @@ class DetailViewModelTest {
         detailCryptoViewModel.getOrderBook(idBookMock)
 
         // Then
-        assert(detailCryptoViewModel.resumeOrder.value == mockData)
+        assert(detailCryptoViewModel.state.value.dataOrder == mockData)
     }
 
     @Test
-    fun `when the viewmodel is create at the first time and obtain a default format value from ticker method`() = runTest {
+    fun default_format_value_ticker() = runTest {
         // Given
         val idBookMock = "btc_mx"
         val mockData = WCCTickerDTO()
@@ -62,11 +62,11 @@ class DetailViewModelTest {
         detailCryptoViewModel.getTicker(idBookMock)
 
         // Then
-        assert(detailCryptoViewModel.resumeTicker.value == mockData)
+        assert(detailCryptoViewModel.state.value.dataTicker == mockData)
     }
 
     @Test
-    fun `when the viewmodel is create at the first time and obtain a correct format value from getDetailTicker method`() = runTest {
+    fun value_getDetailTicker() = runTest {
         // Given
         val idBookMock = "btc_mxn"
         val mockData = WCCTickerDTO(low = "1", high = "34")
@@ -76,6 +76,6 @@ class DetailViewModelTest {
         detailCryptoViewModel.getTicker(idBookMock)
 
         // Then
-        assert(detailCryptoViewModel.resumeTicker.value == mockData)
+        assert(detailCryptoViewModel.state.value.dataTicker == mockData)
     }
 }

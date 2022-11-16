@@ -9,9 +9,6 @@ import retrofit2.http.Query
 
 interface CryptoApi {
 
-    @GET(CryptoEndPoints.AVAILABLE_BOOKS)
-    suspend fun getExchangeBooks(): WCCryptoAvailableResponse
-
     @GET(CryptoEndPoints.TICKER_BOOK)
     suspend fun getTickerBook(
         @Query("book") book: String

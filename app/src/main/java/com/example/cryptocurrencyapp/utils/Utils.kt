@@ -1,6 +1,5 @@
 package com.example.cryptocurrencyapp.utils
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import com.example.cryptocurrencyapp.R
