@@ -1,10 +1,12 @@
 package com.example.cryptocurrencyapp.presentation.view.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.cryptocurrencyapp.R
 import com.example.cryptocurrencyapp.databinding.DetailItemBinding
 import com.example.cryptocurrencyapp.domain.entity.OrderBookDTO
 
@@ -21,8 +23,12 @@ class OrderAdapter : ListAdapter<OrderBookDTO, OrderAdapter.ViewHolder>(DetailDi
     }
 
     inner class ViewHolder(private val binding: DetailItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("ResourceAsColor")
         fun bind(coin: OrderBookDTO) {
             with(binding) {
+                if (coin.type == "ASK"){
+                    ctList.setBackgroundColor(R.color.blue)
+                }
                 txtCryptoValue.text = coin.book
                 txtValueAmount.text = coin.amount
                 txtValuePrice.text = coin.price
