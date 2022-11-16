@@ -7,9 +7,9 @@ import android.os.Build
 import com.example.cryptocurrencyapp.data.database.data_source.CryptoLocalDataSource
 import com.example.cryptocurrencyapp.data.database.entities.*
 import com.example.cryptocurrencyapp.data.remote.data_source.CryptoDataSource
+import com.example.cryptocurrencyapp.domain.entity.CryptoBookDTO
 import com.example.cryptocurrencyapp.domain.entity.OrderListDTO
 import com.example.cryptocurrencyapp.domain.entity.TickerDTO
-import com.example.cryptocurrencyapp.domain.entity.CryptoBookDTO
 import com.example.cryptocurrencyapp.domain.entity.toTickerEntity
 import com.example.cryptocurrencyapp.domain.repository.CryptoRepository
 import dagger.hilt.android.qualifiers.ApplicationContext

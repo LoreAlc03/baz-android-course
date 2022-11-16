@@ -1,6 +1,5 @@
 package com.example.cryptocurrencyapp.presentation.view.state
 
-
 import com.example.cryptocurrencyapp.domain.entity.OrderListDTO
 import com.example.cryptocurrencyapp.domain.entity.TickerDTO
 

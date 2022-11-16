@@ -110,4 +110,3 @@ data class CryptoAvailable(
             else -> CryptoBookDTO()
         }
 }
-

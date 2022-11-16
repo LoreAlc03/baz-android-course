@@ -3,7 +3,6 @@ package com.example.cryptocurrencyapp.data.database.dao
 import androidx.room.*
 import com.example.cryptocurrencyapp.data.database.entities.*
 import com.example.cryptocurrencyapp.domain.entity.OrderListDTO
-
 import io.reactivex.Single
 
 @Dao

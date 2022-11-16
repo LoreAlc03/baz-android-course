@@ -3,9 +3,9 @@ package com.example.cryptocurrencyapp.data.remote.data_source
 import com.example.cryptocurrencyapp.data.remote.api.CryptoApi
 import com.example.cryptocurrencyapp.data.remote.entity.response.CryptoAvailableResponse
 import com.example.cryptocurrencyapp.data.remote.entity.toBitsoTicker
+import com.example.cryptocurrencyapp.domain.entity.CryptoBookDTO
 import com.example.cryptocurrencyapp.domain.entity.OrderListDTO
 import com.example.cryptocurrencyapp.domain.entity.TickerDTO
-import com.example.cryptocurrencyapp.domain.entity.CryptoBookDTO
 import com.example.cryptocurrencyapp.domain.repository.CryptoRepository
 import io.reactivex.Single
 import javax.inject.Inject
