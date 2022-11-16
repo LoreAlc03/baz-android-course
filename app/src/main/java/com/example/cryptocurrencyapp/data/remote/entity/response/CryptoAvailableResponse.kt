@@ -1,14 +1,15 @@
 package com.example.cryptocurrencyapp.data.remote.entity.response
 
+import com.example.cryptocurrencyapp.data.remote.entity.CryptoAvailable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class WCCryptoOrderResponse(
-    @SerializedName("succes")
+data class CryptoAvailableResponse(
+    @SerializedName("success")
     @Expose
-    val succes: Boolean = false,
+    val success: Boolean = false,
 
     @SerializedName("payload")
     @Expose
-    val orderCoin: WCCOrder? = null
+    val coins: List<CryptoAvailable>? = null
 )

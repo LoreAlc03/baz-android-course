@@ -1,16 +1,16 @@
 package com.example.cryptocurrencyapp.domain.use_case
 
-import com.example.cryptocurrencyapp.data.repository.CryptoRespository
-import com.example.cryptocurrencyapp.domain.entity.WCCOrdeRDTO
-import com.example.cryptocurrencyapp.domain.entity.WCCTickerDTO
+import com.example.cryptocurrencyapp.data.repository.CryptoRepository
+import com.example.cryptocurrencyapp.domain.entity.OrderListDTO
+import com.example.cryptocurrencyapp.domain.entity.TickerDTO
 import com.example.cryptocurrencyapp.utils.CryptoConstants
 import com.example.cryptocurrencyapp.utils.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class DetailUseCase @Inject constructor(private val repository: CryptoRespository) {
-    suspend fun ticker(book: String): Flow<Resource<WCCTickerDTO>> = flow {
+class DetailUseCase @Inject constructor(private val repository: CryptoRepository) {
+    suspend fun ticker(book: String): Flow<Resource<TickerDTO>> = flow {
         try {
             emit(Resource.Loading())
             val response = repository.getTickerBook(book)
@@ -19,7 +19,7 @@ class DetailUseCase @Inject constructor(private val repository: CryptoRespositor
             emit(Resource.Error(e.localizedMessage ?: CryptoConstants.ERROR))
         }
     }
-    suspend fun order(book: String): Flow<Resource<WCCOrdeRDTO>> = flow {
+    suspend fun order(book: String): Flow<Resource<OrderListDTO>> = flow {
         try {
             emit(Resource.Loading())
             val response = repository.getOrderBook(book)

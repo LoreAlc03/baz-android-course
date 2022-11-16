@@ -4,7 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.example.cryptocurrencyapp.utils.CryptoConstants
 
-data class WCCryptoBookDTO(
+data class CryptoBookDTO(
     val book: String = "",
     val minPrice: String = "",
     val maxPrice: String = "",
@@ -17,8 +17,7 @@ data class WCCryptoBookDTO(
         parcel.readString() ?: "",
         parcel.readInt(),
         parcel.readString() ?: ""
-    ) {
-    }
+    ) 
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(book)
@@ -32,22 +31,22 @@ data class WCCryptoBookDTO(
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<WCCryptoBookDTO> {
-        override fun createFromParcel(parcel: Parcel): WCCryptoBookDTO {
-            return WCCryptoBookDTO(parcel)
+    companion object CREATOR : Parcelable.Creator<CryptoBookDTO> {
+        override fun createFromParcel(parcel: Parcel): CryptoBookDTO {
+            return CryptoBookDTO(parcel)
         }
 
-        override fun newArray(size: Int): Array<WCCryptoBookDTO?> {
+        override fun newArray(size: Int): Array<CryptoBookDTO?> {
             return arrayOfNulls(size)
         }
     }
 }
 
-fun List<WCCryptoBookDTO>.toFilterWCCryptoBookDTO(): List<WCCryptoBookDTO> {
+fun List<CryptoBookDTO>.toFilterWCCryptoBookDTO(): List<CryptoBookDTO> {
     return this.filter { coin ->
         coin.book.contains(CryptoConstants.MXN)
     }.map {
-        WCCryptoBookDTO(
+        CryptoBookDTO(
             book = it.book,
             minPrice = it.minPrice,
             maxPrice = it.maxPrice,

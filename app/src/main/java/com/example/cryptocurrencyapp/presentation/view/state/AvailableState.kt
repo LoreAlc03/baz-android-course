@@ -1,9 +1,9 @@
 package com.example.cryptocurrencyapp.presentation.view.state
 
-import com.example.cryptocurrencyapp.domain.entity.WCCryptoBookDTO
+import com.example.cryptocurrencyapp.domain.entity.CryptoBookDTO
 
 data class AvailableState(
     val isLoading: Boolean = false,
-    val errorMessage: String? = null,
-    val dataAvailable: List<WCCryptoBookDTO> = emptyList()
+    val errorMessage: String = "",
+    val dataAvailable: List<CryptoBookDTO> = emptyList()
 )

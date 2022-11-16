@@ -1,11 +1,12 @@
 package com.example.cryptocurrencyapp.presentation.view.state
 
-import com.example.cryptocurrencyapp.domain.entity.WCCOrdeRDTO
-import com.example.cryptocurrencyapp.domain.entity.WCCTickerDTO
+
+import com.example.cryptocurrencyapp.domain.entity.OrderListDTO
+import com.example.cryptocurrencyapp.domain.entity.TickerDTO
 
 data class DetailCoinState(
     val isLoading: Boolean = false,
-    val errorMessage: String? = null,
-    val dataTicker: WCCTickerDTO? = null,
-    val dataOrder: WCCOrdeRDTO? = null,
+    val errorMessage: String = "",
+    val dataTicker: TickerDTO = TickerDTO(),
+    val dataOrder: OrderListDTO = OrderListDTO(),
 )

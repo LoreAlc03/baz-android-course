@@ -1,8 +1,8 @@
 package com.example.cryptocurrencyapp.presentation.view_model
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.cryptocurrencyapp.domain.entity.WCCOrdeRDTO
-import com.example.cryptocurrencyapp.domain.entity.WCCTickerDTO
+import com.example.cryptocurrencyapp.domain.entity.OrderListDTO
+import com.example.cryptocurrencyapp.domain.entity.TickerDTO
 import com.example.cryptocurrencyapp.domain.use_case.DetailUseCase
 import com.example.cryptocurrencyapp.utils.Resource
 import io.mockk.MockKAnnotations
@@ -41,7 +41,7 @@ class DetailViewModelTest {
     fun default_format_value_order() = runTest {
         // Given
         val idBookMock = "btc_mxn"
-        val mockData = WCCOrdeRDTO()
+        val mockData = OrderListDTO()
         coEvery { getDetailUseCase.order(idBookMock) } returns flow { emit(Resource.Success(mockData)) }
 
         // When
@@ -55,7 +55,7 @@ class DetailViewModelTest {
     fun default_format_value_ticker() = runTest {
         // Given
         val idBookMock = "btc_mx"
-        val mockData = WCCTickerDTO()
+        val mockData = TickerDTO()
         coEvery { getDetailUseCase.ticker(idBookMock) } returns flow { emit(Resource.Success(mockData)) }
 
         // When
@@ -69,7 +69,7 @@ class DetailViewModelTest {
     fun value_getDetailTicker() = runTest {
         // Given
         val idBookMock = "btc_mxn"
-        val mockData = WCCTickerDTO(low = "1", high = "34")
+        val mockData = TickerDTO(low = "1", high = "34")
         coEvery { getDetailUseCase.ticker(idBookMock) } returns flow { emit(Resource.Success(mockData)) }
 
         // When

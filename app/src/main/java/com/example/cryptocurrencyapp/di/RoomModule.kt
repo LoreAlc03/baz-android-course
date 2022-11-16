@@ -12,9 +12,9 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RoomModle {
+object RoomModule {
 
-    const val COIN_DATABASE_NAME = "coin_data_basee"
+    private const val COIN_DATABASE_NAME = "coin_data_base"
 
     @Singleton
     @Provides

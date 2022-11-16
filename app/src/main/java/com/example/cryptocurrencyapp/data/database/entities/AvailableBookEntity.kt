@@ -2,7 +2,7 @@ package com.example.cryptocurrencyapp.data.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.cryptocurrencyapp.domain.entity.WCCryptoBookDTO
+import com.example.cryptocurrencyapp.domain.entity.CryptoBookDTO
 
 @Entity(tableName = "available_table")
 data class AvailableBookEntity(
@@ -14,7 +14,7 @@ data class AvailableBookEntity(
     val logo: Int,
 )
 fun AvailableBookEntity.toWCCryptoBookDTO() =
-    WCCryptoBookDTO(
+    CryptoBookDTO(
         book = book,
         name = name,
         minPrice = minPrice,
@@ -22,7 +22,7 @@ fun AvailableBookEntity.toWCCryptoBookDTO() =
         logo = logo
     )
 
-fun List<WCCryptoBookDTO>?.toAvailableEntity() = mutableListOf<AvailableBookEntity>().apply {
+fun List<CryptoBookDTO>?.toAvailableEntity() = mutableListOf<AvailableBookEntity>().apply {
     this@toAvailableEntity?.forEach {
         this.add(
             AvailableBookEntity(

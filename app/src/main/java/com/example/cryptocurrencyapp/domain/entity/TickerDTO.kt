@@ -2,13 +2,13 @@ package com.example.cryptocurrencyapp.domain.entity
 
 import com.example.cryptocurrencyapp.data.database.entities.TickerEntity
 
-data class WCCTickerDTO(
+data class TickerDTO(
     val book: String = "",
     val high: String = "",
     val low: String = ""
 )
 
-fun WCCTickerDTO.toTickerEntity() =
+fun TickerDTO.toTickerEntity() =
     TickerEntity(
         book = this.book,
         high = high,

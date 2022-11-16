@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.cryptocurrencyapp.databinding.FragmentDetailCoinBinding
-import com.example.cryptocurrencyapp.domain.entity.WCCryptoBookDTO
+import com.example.cryptocurrencyapp.domain.entity.CryptoBookDTO
 import com.example.cryptocurrencyapp.presentation.view.adapters.OrderAdapter
 import com.example.cryptocurrencyapp.presentation.view_model.DetailViewModel
 import com.example.cryptocurrencyapp.utils.Utils
@@ -24,9 +24,7 @@ class DetailCoinFragment : Fragment() {
     private lateinit var binding: FragmentDetailCoinBinding
     private lateinit var bidAdapter: OrderAdapter
     private lateinit var askAdapter: OrderAdapter
-    private lateinit var book: WCCryptoBookDTO
-    private var nameCoin: String? = null
-    private var icon: Int = 0
+    private lateinit var book: CryptoBookDTO
 
     private val detailModel by viewModels<DetailViewModel> ()
 
@@ -35,9 +33,9 @@ class DetailCoinFragment : Fragment() {
         arguments?.let {
 
             book = if (Build.VERSION.SDK_INT >= 33) {
-                it.getParcelable(BOOK, WCCryptoBookDTO::class.java) ?: WCCryptoBookDTO()
+                it.getParcelable(BOOK, CryptoBookDTO::class.java) ?: CryptoBookDTO()
             } else {
-                it.getParcelable(BOOK) ?: WCCryptoBookDTO()
+                it.getParcelable(BOOK) ?: CryptoBookDTO()
             }
         }
         bidAdapter = OrderAdapter()
@@ -77,20 +75,5 @@ class DetailCoinFragment : Fragment() {
                 }
             }
         }
-       /* detailModel.isLoading.observe(requireActivity()) { loading ->
-            if (!loading) {
-                binding.progressBar.visibility = View.INVISIBLE
-            }
-        }*/
-       /* detailModel.resumeTicker.observe(requireActivity()) { ticker ->
-            binding.imgCoin.setImageResource(book.logo)
-            binding.txtCoinName.text = book.name
-            binding.txtValueMaxPrice.text = ticker.high
-            binding.txtValueMinPrice.text = ticker.low
-        }
-        detailModel.resumeOrder.observe(requireActivity()) { coin ->
-            askAdapter.submitList(coin.ask)
-            bidAdapter.submitList(coin.bids)
-        }*/
     }
 }

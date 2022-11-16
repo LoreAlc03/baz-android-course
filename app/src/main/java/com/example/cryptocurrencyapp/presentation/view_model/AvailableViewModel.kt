@@ -29,21 +29,20 @@ class AvailableViewModel @Inject constructor(private val availableUseCase: GetAv
                 when (coins) {
                     is Resource.Loading -> {
                         _stateAvailable.update {
-                            it.copy(isLoading = true, errorMessage = null)
+                            it.copy(isLoading = true)
                         }
                     }
                     is Resource.Success -> {
                         _stateAvailable.update {
                             it.copy(
                                 isLoading = false,
-                                errorMessage = null,
                                 dataAvailable = coins.data?.toFilterWCCryptoBookDTO() ?: emptyList()
                             )
                         }
                     }
                     is Resource.Error ->
                         _stateAvailable.update {
-                            it.copy(isLoading = false, errorMessage = coins.uiText)
+                            it.copy(isLoading = false, errorMessage = coins.uiText.toString())
                         }
                 }
             }, {

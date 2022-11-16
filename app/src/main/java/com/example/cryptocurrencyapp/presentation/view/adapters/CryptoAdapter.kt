@@ -6,11 +6,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptocurrencyapp.databinding.CryptoItemBinding
-import com.example.cryptocurrencyapp.domain.entity.WCCryptoBookDTO
+import com.example.cryptocurrencyapp.domain.entity.CryptoBookDTO
 import com.example.cryptocurrencyapp.utils.Utils
 
-class WCCryptoAdapter(private val click: (WCCryptoBookDTO) -> Unit) :
-    ListAdapter<WCCryptoBookDTO, WCCryptoAdapter.ViewHolder>(CoinDiffCallback) {
+class CryptoAdapter(private val click: (CryptoBookDTO) -> Unit) :
+    ListAdapter<CryptoBookDTO, CryptoAdapter.ViewHolder>(CoinDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = CryptoItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -27,7 +27,7 @@ class WCCryptoAdapter(private val click: (WCCryptoBookDTO) -> Unit) :
 
     inner class ViewHolder(private val binding: CryptoItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(coin: WCCryptoBookDTO) {
+        fun bind(coin: CryptoBookDTO) {
             with(binding) {
                 val name = Utils.cleanString(coin.book)
                 imgCrypto.setImageResource(coin.logo)
@@ -39,13 +39,13 @@ class WCCryptoAdapter(private val click: (WCCryptoBookDTO) -> Unit) :
         }
     }
 
-    private object CoinDiffCallback : DiffUtil.ItemCallback<WCCryptoBookDTO>() {
-        override fun areItemsTheSame(oldItem: WCCryptoBookDTO, newItem: WCCryptoBookDTO): Boolean =
+    private object CoinDiffCallback : DiffUtil.ItemCallback<CryptoBookDTO>() {
+        override fun areItemsTheSame(oldItem: CryptoBookDTO, newItem: CryptoBookDTO): Boolean =
             oldItem == newItem
 
         override fun areContentsTheSame(
-            oldItem: WCCryptoBookDTO,
-            newItem: WCCryptoBookDTO
+            oldItem: CryptoBookDTO,
+            newItem: CryptoBookDTO
         ): Boolean =
             oldItem == newItem
     }

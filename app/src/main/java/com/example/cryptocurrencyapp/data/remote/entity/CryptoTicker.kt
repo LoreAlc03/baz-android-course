@@ -1,10 +1,10 @@
 package com.example.cryptocurrencyapp.data.remote.entity
 
-import com.example.cryptocurrencyapp.domain.entity.WCCTickerDTO
+import com.example.cryptocurrencyapp.domain.entity.TickerDTO
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class WCCryptoTicker(
+data class CryptoTicker(
     @SerializedName("book")
     @Expose
     val coin: String = "",
@@ -42,8 +42,8 @@ data class WCCryptoTicker(
     val createdAt: String = ""
 )
 
-fun WCCryptoTicker.toBitsoTicker(): WCCTickerDTO {
-    return WCCTickerDTO(
+fun CryptoTicker.toBitsoTicker(): TickerDTO {
+    return TickerDTO(
         book = this.coin,
         high = highCoin,
         low = lowCoin,

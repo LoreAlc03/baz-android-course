@@ -19,7 +19,7 @@ class CryptoLocalDataSource @Inject constructor(
 
     // Ticker
     suspend fun getTickerFromDB(book: String): TickerEntity =
-        cryptoDB.getickerBD(book)
+        cryptoDB.getTickerBD(book)
 
     suspend fun insertTickerToDB(tickerEntity: TickerEntity) =
         cryptoDB.insertTickerBD(tickerEntity)

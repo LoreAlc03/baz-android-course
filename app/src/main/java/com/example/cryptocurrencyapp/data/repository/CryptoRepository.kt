@@ -6,24 +6,24 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import com.example.cryptocurrencyapp.data.database.data_source.CryptoLocalDataSource
 import com.example.cryptocurrencyapp.data.database.entities.*
-import com.example.cryptocurrencyapp.data.remote.data_source.WCCryptoRepositoryImp
-import com.example.cryptocurrencyapp.domain.entity.WCCOrdeRDTO
-import com.example.cryptocurrencyapp.domain.entity.WCCTickerDTO
-import com.example.cryptocurrencyapp.domain.entity.WCCryptoBookDTO
+import com.example.cryptocurrencyapp.data.remote.data_source.CryptoDataSource
+import com.example.cryptocurrencyapp.domain.entity.OrderListDTO
+import com.example.cryptocurrencyapp.domain.entity.TickerDTO
+import com.example.cryptocurrencyapp.domain.entity.CryptoBookDTO
 import com.example.cryptocurrencyapp.domain.entity.toTickerEntity
-import com.example.cryptocurrencyapp.domain.repository.WCCryptoRepository
+import com.example.cryptocurrencyapp.domain.repository.CryptoRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.Single
 import javax.inject.Inject
 
-class CryptoRespository @Inject constructor(
+class CryptoRepository @Inject constructor(
     @ApplicationContext private val context: Context,
     private val localDataSource: CryptoLocalDataSource,
-    private val remoteDataSource: WCCryptoRepositoryImp,
-) : WCCryptoRepository {
-    override suspend fun getTickerBook(book: String): WCCTickerDTO {
+    private val remoteDataSource: CryptoDataSource,
+) : CryptoRepository {
+    override suspend fun getTickerBook(book: String): TickerDTO {
         return if (isInternet(context)) {
-            val ticker: WCCTickerDTO = remoteDataSource.getTickerBook(book)
+            val ticker: TickerDTO = remoteDataSource.getTickerBook(book)
 
             if (ticker.book != "") {
                 localDataSource.insertTickerToDB(ticker.toTickerEntity())
@@ -35,11 +35,11 @@ class CryptoRespository @Inject constructor(
                 localDataSource.getTickerFromDB(book).toWCCTickerDTO()
             } catch (e: Exception) {
                 e.printStackTrace()
-                return WCCTickerDTO()
+                return TickerDTO()
             }
     }
 
-    override suspend fun getOrderBook(book: String): WCCOrdeRDTO {
+    override suspend fun getOrderBook(book: String): OrderListDTO {
         if (isInternet(context)) {
             val order = remoteDataSource.getOrderBook(book)
             if (order.ask.isNotEmpty() && order.bids.isNotEmpty()) {
@@ -55,12 +55,12 @@ class CryptoRespository @Inject constructor(
                 localDataSource.getOrderBookFromDB(book)
             } catch (e: Exception) {
                 e.printStackTrace()
-                WCCOrdeRDTO()
+                OrderListDTO()
             }
         }
     }
 
-    override fun getAvailableRx(): Single<List<WCCryptoBookDTO>> {
+    override fun getAvailableRx(): Single<List<CryptoBookDTO>> {
         if (isInternet(context)) {
             return remoteDataSource.getAvailableRx().map { coins ->
                 val cryptoList = coins.toMutableList()

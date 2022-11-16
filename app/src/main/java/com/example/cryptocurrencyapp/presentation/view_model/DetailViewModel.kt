@@ -1,8 +1,8 @@
 package com.example.cryptocurrencyapp.presentation.view_model
 
 import androidx.lifecycle.*
-import com.example.cryptocurrencyapp.domain.entity.WCCOrdeRDTO
-import com.example.cryptocurrencyapp.domain.entity.WCCTickerDTO
+import com.example.cryptocurrencyapp.domain.entity.OrderListDTO
+import com.example.cryptocurrencyapp.domain.entity.TickerDTO
 import com.example.cryptocurrencyapp.domain.use_case.DetailUseCase
 import com.example.cryptocurrencyapp.presentation.view.state.DetailCoinState
 import com.example.cryptocurrencyapp.utils.Resource
@@ -25,7 +25,7 @@ class DetailViewModel @Inject constructor(private val detailUseCase: DetailUseCa
                 when (ticker) {
                     is Resource.Loading -> {
                         _state.update {
-                            it.copy(isLoading = true, errorMessage = null)
+                            it.copy(isLoading = true)
                         }
                     }
 
@@ -33,14 +33,13 @@ class DetailViewModel @Inject constructor(private val detailUseCase: DetailUseCa
                         _state.update {
                             it.copy(
                                 isLoading = false,
-                                errorMessage = null,
-                                dataTicker = ticker.data ?: WCCTickerDTO()
+                                dataTicker = ticker.data ?: TickerDTO()
                             )
                         }
                     }
                     is Resource.Error ->
                         _state.update {
-                            it.copy(isLoading = false, errorMessage = ticker.uiText)
+                            it.copy(isLoading = false, errorMessage = ticker.uiText.toString())
                         }
                 }
             }.launchIn(viewModelScope)
@@ -54,20 +53,19 @@ class DetailViewModel @Inject constructor(private val detailUseCase: DetailUseCa
                 when (order) {
                     is Resource.Loading ->
                         _state.update {
-                            it.copy(isLoading = true, errorMessage = null)
+                            it.copy(isLoading = true)
                         }
                     is Resource.Success -> {
                         _state.update {
                             it.copy(
                                 isLoading = false,
-                                errorMessage = null,
-                                dataOrder = order.data ?: WCCOrdeRDTO()
+                                dataOrder = order.data ?: OrderListDTO()
                             )
                         }
                     }
                     is Resource.Error ->
                         _state.update {
-                            it.copy(isLoading = false, errorMessage = order.uiText)
+                            it.copy(isLoading = false, errorMessage = order.uiText.toString())
                         }
                 }
             }.launchIn(viewModelScope)

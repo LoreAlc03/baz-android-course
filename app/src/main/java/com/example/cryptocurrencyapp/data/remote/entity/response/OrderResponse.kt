@@ -1,19 +1,19 @@
 package com.example.cryptocurrencyapp.data.remote.entity.response
 
-import com.example.cryptocurrencyapp.data.remote.entity.WCCryptoOrderBook
-import com.example.cryptocurrencyapp.domain.entity.WCCOrdeRDTO
+import com.example.cryptocurrencyapp.data.remote.entity.CryptoOrderBook
+import com.example.cryptocurrencyapp.domain.entity.OrderListDTO
 import com.example.cryptocurrencyapp.utils.CryptoConstants
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class WCCOrder(
+data class OrderResponse(
     @SerializedName("asks")
     @Expose
-    val ask: List<WCCryptoOrderBook>,
+    val ask: List<CryptoOrderBook>,
 
     @SerializedName("bids")
     @Expose
-    val bid: List<WCCryptoOrderBook>,
+    val bid: List<CryptoOrderBook>,
 
     @SerializedName("updated_at")
     @Expose
@@ -23,8 +23,8 @@ data class WCCOrder(
     @Expose
     val sequence: String = ""
 ) {
-    fun toOrder(): WCCOrdeRDTO {
-        return WCCOrdeRDTO(
+    fun toOrder(): OrderListDTO {
+        return OrderListDTO(
             ask = ask.map { ask ->
                 ask.toOrderDTO(CryptoConstants.ASK)
             }.toMutableList(),

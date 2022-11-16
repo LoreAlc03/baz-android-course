@@ -14,7 +14,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.cryptocurrencyapp.R
 import com.example.cryptocurrencyapp.databinding.FragmentCryptoListBinding
-import com.example.cryptocurrencyapp.presentation.view.adapters.WCCryptoAdapter
+import com.example.cryptocurrencyapp.presentation.view.adapters.CryptoAdapter
 import com.example.cryptocurrencyapp.presentation.view_model.AvailableViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -22,13 +22,13 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class CryptoListFragment : Fragment() {
     private lateinit var binding: FragmentCryptoListBinding
-    private lateinit var adapter: WCCryptoAdapter
+    private lateinit var adapter: CryptoAdapter
 
     private val coinViewModel by viewModels<AvailableViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        adapter = WCCryptoAdapter { book ->
+        adapter = CryptoAdapter { book ->
             findNavController().navigate(
                 R.id.action_cryptoListFragment_to_detailCoinFragment,
                 bundleOf("book" to book)
