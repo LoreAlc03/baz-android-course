@@ -2,7 +2,7 @@ package com.example.cryptocurrencyapp.data.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.cryptocurrencyapp.domain.entity.WCCOrderBookDTO
+import com.example.cryptocurrencyapp.domain.entity.OrderBookDTO
 
 @Entity(tableName = "bid_table")
 data class BidEntity(
@@ -15,18 +15,17 @@ data class BidEntity(
 )
 
 fun BidEntity.toWCCOrderBookDTO() =
-    WCCOrderBookDTO(
+    OrderBookDTO(
         book = this.book,
         price = this.price,
         amount = this.amount,
         type = this.type
     )
 
-fun List<WCCOrderBookDTO>?.toBidsEntityList() = mutableListOf<BidEntity>().apply {
+fun List<OrderBookDTO>?.toBidsEntityList() = mutableListOf<BidEntity>().apply {
     this@toBidsEntityList?.forEach {
         this.add(
             BidEntity(book = it.book, price = it.price, amount = it.amount)
         )
     }
 }
-

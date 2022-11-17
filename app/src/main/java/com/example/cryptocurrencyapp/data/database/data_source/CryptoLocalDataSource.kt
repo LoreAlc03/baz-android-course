@@ -10,29 +10,21 @@ import javax.inject.Inject
 class CryptoLocalDataSource @Inject constructor(
     private val cryptoDB: CryptoDao
 
-){
+) {
+    fun getAllAvailableRxFromDB() =
+        cryptoDB.getAllAvailableRXDB()
 
-    //Available
-     suspend fun getAllAvailableFromDB(): List<AvailableBookEntity> =
-         cryptoDB.getAllAvailableBookDB()
+    fun insertAvailableRxBookToDB(bookList: List<AvailableBookEntity>) =
+        cryptoDB.insertAvailableRXDB(bookList)
 
-
-    suspend fun insertAvailableBookToDB(bookList: List<AvailableBookEntity>) =
-        cryptoDB.insertAvailableBooDB(bookList)
-
-    suspend fun updateAvailableBookDB(bookList: List<AvailableBookEntity>) =
-        cryptoDB.updateAvailableBookDB(bookList)
-
-
-    //Ticker
-    suspend fun getTickerFromDB(book : String) : TickerEntity =
-        cryptoDB.getickerBD(book)
+    // Ticker
+    suspend fun getTickerFromDB(book: String): TickerEntity =
+        cryptoDB.getTickerBD(book)
 
     suspend fun insertTickerToDB(tickerEntity: TickerEntity) =
         cryptoDB.insertTickerBD(tickerEntity)
 
-
-    //Order
+    // Order
     suspend fun getOrderBookFromDB(book: String) =
         cryptoDB.getOrderBookDB(book)
 
@@ -42,5 +34,3 @@ class CryptoLocalDataSource @Inject constructor(
     suspend fun deleteOrderBook(book: String) =
         cryptoDB.deleteOrderBookDB(book)
 }
-
-

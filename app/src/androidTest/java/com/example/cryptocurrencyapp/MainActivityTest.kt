@@ -20,12 +20,12 @@ fun nav_detail() {
         ApplicationProvider.getApplicationContext()
     )
     val titleScenario = launchFragmentInContainer<CryptoListFragment>()
-    titleScenario.onFragment{ fragment ->
+    titleScenario.onFragment { fragment ->
         navController.setGraph(R.navigation.nav_graph)
 
-        Navigation.setViewNavController(fragment.requireView(),navController)
+        Navigation.setViewNavController(fragment.requireView(), navController)
     }
 
     Espresso.onView(ViewMatchers.withId(R.id.box_crypto_item)).perform(ViewActions.click())
-    //assertThat(navController.currentDestination?.id).isEqualsTo(R.id.detailCoinFragment)
+    assert(navController.currentDestination?.id == R.id.detailCoinFragment)
 }

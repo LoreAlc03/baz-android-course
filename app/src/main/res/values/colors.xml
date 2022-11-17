@@ -9,7 +9,13 @@
     <color name="white">#FFFFFFFF</color>
     <color name="bisque">#FFE4C4</color>
     <color name="green">#8FBCAF</color>
-    <color name="gray">#6D7270</color>
-    <color name="blue">#051257</color>
+    <color name="blue">#488a99</color>
+    <color name="gray">#B4B4B4</color>
+    <color name="turquoise">#BCBABE</color>
+    <color name="blush">#D09683</color>
+    <color name="purple_clear">#727285</color>
+    <color name="charcoal">#717171</color>
+    <color name="font">#F4EADE</color>
+
 
 </resources>
